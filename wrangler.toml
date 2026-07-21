@@ -1,0 +1,19 @@
+name = "mox"
+main = "worker/index.js"
+compatibility_date = "2025-01-01"
+
+# Serve the built SPA. Unknown routes fall back to index.html (client-side routing).
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+not_found_handling = "single-page-application"
+
+# Persistent, atomic visit counter + timestamped logs (Durable Object).
+[[durable_objects.bindings]]
+name = "VISIT_COUNTER"
+class_name = "VisitCounter"
+
+# SQLite-backed DO class (available on the Workers free plan).
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["VisitCounter"]
